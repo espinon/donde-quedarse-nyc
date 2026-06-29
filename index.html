@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Dónde quedarse? — Guía de barrios del área de Nueva York</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16171B;
+    --paper:#EDEBE4;
+    --card:#FBFAF6;
+    --line:#23242A;
+    --muted:#5C5E66;
+    /* MTA route colors */
+    --path:#1B3F8B;     /* PATH azul */
+    --tunnel:#FF6319;   /* B D F M naranja → túnel/bus */
+    --bk:#6CBE45;        /* G verde claro → Brooklyn */
+    --qns:#A626AA;       /* 7 morado → Queens */
+    --mn:#EE352E;        /* 1 2 3 rojo → Manhattan */
+    --blue:#0039A6;
+    --green:#00933C;
+    --grey:#808183;
+    --yellow:#FCCC0A;
+    --lime:#6CBE45;
+    --orange:#FF6319;
+    --red:#EE352E;
+    --purple:#A626AA;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  /* ---------- HERO ---------- */
+  header{
+    padding:64px 0 40px;
+    border-bottom:3px solid var(--ink);
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  }
+  .eyebrow b{color:var(--ink)}
+  h1{
+    font-family:'Archivo',sans-serif;
+    font-weight:900;
+    font-size:clamp(44px,9vw,104px);
+    line-height:.92;
+    letter-spacing:-.02em;
+    text-transform:uppercase;
+  }
+  h1 .q{color:var(--mn)}
+  .lede{
+    margin-top:24px;max-width:620px;font-size:18px;color:var(--muted);
+  }
+  .lede strong{color:var(--ink);font-weight:600}
+  .credit{
+    margin-top:28px;display:inline-flex;align-items:center;gap:12px;
+    background:var(--ink);color:#fff;padding:10px 16px;border-radius:40px;
+    font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.02em;
+  }
+  .credit .dot{width:9px;height:9px;border-radius:50%;background:var(--yellow)}
+
+  /* ---------- LEGEND ---------- */
+  .legend{
+    padding:28px 0;border-bottom:1px solid #cfcdc4;
+    display:flex;gap:10px 26px;flex-wrap:wrap;align-items:center;
+  }
+  .legend .lab{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted);margin-right:4px}
+  .legchip{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:500}
+  .swatch{width:16px;height:16px;border-radius:4px}
+
+  /* ---------- ZONE ---------- */
+  .zone{padding:54px 0 10px;border-bottom:1px solid #cfcdc4}
+  .zone:last-of-type{border-bottom:none}
+  .signbar{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--ink);color:#fff;
+    padding:13px 22px 13px 16px;border-radius:12px;
+    box-shadow:0 3px 0 rgba(0,0,0,.25);
+  }
+  .signbar .zname{
+    font-family:'Archivo',sans-serif;font-weight:800;
+    font-size:clamp(20px,4vw,30px);letter-spacing:.01em;text-transform:uppercase;line-height:1;
+  }
+  .signbar .ztag{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;
+    color:#bdbdc4;text-transform:uppercase;border-left:1px solid #43454d;padding-left:14px;
+  }
+  .zlead{margin:18px 2px 26px;font-size:15px;color:var(--muted);max-width:680px}
+  .zlead b{color:var(--ink);font-weight:600}
+
+  /* route bullets */
+  .bullet{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;border-radius:50%;flex:none;
+    font-family:'Archivo',sans-serif;font-weight:800;font-size:13px;color:#fff;
+  }
+  .bullet.path{background:var(--path);font-size:10px;letter-spacing:-.02em}
+  .bullet.bus{background:var(--orange);font-size:11px}
+  .bullet.g{background:var(--lime);color:#fff}
+  .bullet.l{background:var(--grey)}
+  .bullet.seven{background:var(--purple)}
+  .bullet.nw{background:var(--yellow);color:var(--ink)}
+  .bullet.bdfm{background:var(--orange)}
+  .bullet.acE{background:var(--blue)}
+  .bullet.r123{background:var(--red)}
+  .bullet.r456{background:var(--green)}
+  .bullet.bq{background:var(--orange)}
+
+  /* cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;padding-bottom:8px}
+  .card{
+    background:var(--card);border:1px solid #d8d6cd;border-radius:14px;
+    padding:20px;position:relative;overflow:hidden;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  }
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,var(--ink))}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.10);border-color:#bbb9b0}
+  .card .lines{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+  .card h3{
+    font-family:'Archivo',sans-serif;font-weight:700;font-size:21px;letter-spacing:-.01em;
+    margin-bottom:8px;
+  }
+  .card .note{font-size:14px;color:var(--muted);line-height:1.5}
+  .card .note .q{
+    color:var(--ink);font-weight:500;font-style:italic;
+  }
+  .flag{
+    display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+    font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 9px;border-radius:6px;font-weight:700;
+  }
+  .flag.warn{background:#FDEBD0;color:#9C5400}
+  .flag.good{background:#E3F4DD;color:#2E6B1F}
+
+  /* ---------- TIPS ---------- */
+  .tips{padding:60px 0 30px;background:var(--ink);color:#fff;margin-top:48px;border-radius:24px 24px 0 0}
+  .tips .wrap{max-width:1040px}
+  .tips .signbar{background:var(--yellow);color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.4)}
+  .tips .signbar .ztag{color:#6b5a00;border-left-color:#c9a400}
+  .tiplead{color:#c7c8ce;margin:18px 2px 30px;max-width:640px;font-size:15px}
+  .tipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .tip{border:1px solid #34363d;border-radius:14px;padding:22px;background:#1c1d23}
+  .tip .num{font-family:'Space Mono',monospace;font-size:12px;color:var(--yellow);letter-spacing:.1em;margin-bottom:12px}
+  .tip h4{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;margin-bottom:7px}
+  .tip p{font-size:14px;color:#aeb0b8;line-height:1.55}
+  .tip p b{color:#fff;font-weight:600}
+
+  footer{background:var(--ink);color:#73757d;padding:30px 0 50px;text-align:center;
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.04em}
+  footer b{color:#fff}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .card{transition:none}
+    html{scroll-behavior:auto}
+  }
+  @media(max-width:560px){
+    header{padding:44px 0 32px}
+    .signbar{padding:11px 16px 11px 13px}
+    .signbar .ztag{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow"><b>Área de Nueva York</b> · NY + NJ <span>—</span> guía de barrios para hospedarse</div>
+    <h1><span class="q">¿Dónde</span> quedarse?</h1>
+    <p class="lede">Los barrios que vale la pena mirar para conseguir hospedaje, ordenados por <strong>cómo se llega a Manhattan</strong>: PATH, el Lincoln Tunnel, o el subway. Tips de alguien que conoce la ciudad.</p>
+    <div class="credit"><span class="dot"></span> Recopilado por Octavio Galvis-Villegas</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="legend">
+    <span class="lab">Cómo leerlo</span>
+    <span class="legchip"><span class="swatch" style="background:var(--path)"></span> Cerca al PATH</span>
+    <span class="legchip"><span class="swatch" style="background:var(--tunnel)"></span> Cerca al Lincoln Tunnel</span>
+    <span class="legchip"><span class="swatch" style="background:var(--bk)"></span> Brooklyn</span>
+    <span class="legchip"><span class="swatch" style="background:var(--qns)"></span> Queens</span>
+    <span class="legchip"><span class="swatch" style="background:var(--mn)"></span> Manhattan</span>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- PATH -->
+  <section class="zone reveal">
+    <div class="signbar" style="--z:var(--path)">
+      <span class="bullet path">PATH</span>
+      <span class="zname">Cerca al PATH</span>
+      <span class="ztag">NJ → Manhattan en 10–20 min</span>
+    </div>
+    <p class="zlead">El PATH cruza el Hudson directo al World Trade Center y a la calle 33. La forma más fácil (y normalmente más barata) de quedarse fuera de Manhattan sin alejarse.</p>
+    <div class="grid">
+      <div class="card" style="--accent:var(--path)">
+        <div class="lines"><span class="bullet path">PATH</span></div>
+        <h3>Jersey City</h3>
+        <p class="note"><span class="q">"Tiene zonas no tan chéveres."</span> Cerca de Grove St y Exchange Place está bien conectado; conviene mirar bien la cuadra exacta.</p>
+        <span class="flag warn">⚑ Revisar la zona</span>
+      </div>
+      <div class="card" style="--accent:var(--path)">
+        <div class="lines"><span class="bullet path">PATH</span></div>
+        <h3>Hoboken</h3>
+        <p class="note"><span class="q">"Mucho mejor."</span> Caminable, con buen ambiente y vista a Manhattan. Terminal de PATH propia.</p>
+        <span class="flag good">★ Recomendado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LINCOLN TUNNEL -->
+  <section class="zone reveal">
+    <div class="signbar">
+      <span class="bullet bus">BUS</span>
+      <span class="zname">Cerca al Lincoln Tunnel</span>
+      <span class="ztag">Bus directo a Port Authority</span>
+    </div>
+    <p class="zlead">Pueblos en lo alto de la ribera de NJ, con buses que entran por el túnel a la terminal de Port Authority (calle 42). Buenas vistas del skyline y precios más amables.</p>
+    <div class="grid">
+      <div class="card" style="--accent:var(--tunnel)">
+        <div class="lines"><span class="bullet bus">BUS</span></div>
+        <h3>West New York</h3>
+        <p class="note">Sobre el río, con acceso por bus al túnel. Tranquilo y residencial.</p>
+      </div>
+      <div class="card" style="--accent:var(--tunnel)">
+        <div class="lines"><span class="bullet bus">BUS</span></div>
+        <h3>Weehawken</h3>
+        <p class="note">Justo frente a Midtown; del ferry o el bus se llega rápido. Vistas excelentes.</p>
+      </div>
+      <div class="card" style="--accent:var(--tunnel)">
+        <div class="lines"><span class="bullet bus">BUS</span></div>
+        <h3>Union City</h3>
+        <p class="note"><span class="q">"Incluso Union City es cerca."</span> Un poco tierra adentro pero bien conectado por bus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BROOKLYN -->
+  <section class="zone reveal">
+    <div class="signbar">
+      <span class="bullet g">G</span>
+      <span class="zname">Brooklyn</span>
+      <span class="ztag">Ambiente local, buen sabor</span>
+    </div>
+    <p class="zlead">Menos turístico que Manhattan y con personalidad propia. Buena comida, cafés y acceso al subway hacia el bajo Manhattan y Midtown.</p>
+    <div class="grid">
+      <div class="card" style="--accent:var(--bk)">
+        <div class="lines"><span class="bullet g">G</span><span class="bullet acE">C</span></div>
+        <h3>Fort Greene</h3>
+        <p class="note">Brownstones, parque y buen ambiente. Muy bien conectado hacia Manhattan.</p>
+      </div>
+      <div class="card" style="--accent:var(--bk)">
+        <div class="lines"><span class="bullet l">L</span><span class="bullet g">G</span></div>
+        <h3>Williamsburg</h3>
+        <p class="note">El barrio más "cool" de Brooklyn: cafés, bares, mercados y vista al río en Domino Park.</p>
+      </div>
+      <div class="card" style="--accent:var(--bk)">
+        <div class="lines"><span class="bullet g">G</span></div>
+        <h3>Greenpoint</h3>
+        <p class="note"><span class="q">"Pero ahora tiene un problema con el Subway."</span> Lindo y tranquilo, pero el tren G puede complicar la entrada a la ciudad — verificar antes de reservar.</p>
+        <span class="flag warn">⚑ Ojo con el tren G</span>
+      </div>
+      <div class="card" style="--accent:var(--bk)">
+        <div class="lines"><span class="bullet bq">B</span><span class="bullet bq">Q</span><span class="bullet r123">2</span><span class="bullet r123">3</span></div>
+        <h3>Prospect Park</h3>
+        <p class="note">Junto al gran parque de Brooklyn; verde, residencial y familiar. Varias líneas a la mano.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUEENS -->
+  <section class="zone reveal">
+    <div class="signbar">
+      <span class="bullet seven">7</span>
+      <span class="zname">Queens</span>
+      <span class="ztag">A minutos de Midtown</span>
+    </div>
+    <p class="zlead">Más residencial y a menudo mejor precio. Desde aquí Midtown queda a pocos minutos en subway, y queda del lado de Long Island.</p>
+    <div class="grid">
+      <div class="card" style="--accent:var(--qns)">
+        <div class="lines"><span class="bullet seven">7</span><span class="bullet acE">E</span><span class="bullet bdfm">M</span><span class="bullet g">G</span></div>
+        <h3>Long Island City</h3>
+        <p class="note">A menos de 5 minutos de Midtown. Edificios nuevos, cafés y muy buen valor por la ubicación.</p>
+        <span class="flag good">★ Base práctica</span>
+      </div>
+      <div class="card" style="--accent:var(--qns)">
+        <div class="lines"><span class="bullet nw">N</span><span class="bullet nw">W</span></div>
+        <h3>Astoria</h3>
+        <p class="note">Barrio local con mucha cultura y comida (griega, entre otras). Unos 20 min a Times Square.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANHATTAN -->
+  <section class="zone reveal">
+    <div class="signbar">
+      <span class="bullet r123">1</span>
+      <span class="zname">Manhattan</span>
+      <span class="ztag">En la ciudad — no descartarlo</span>
+    </div>
+    <p class="zlead">Buscar primero los barrios de arriba, pero <b>sin descartar la ciudad</b>: con paciencia aparecen opciones razonables en estas zonas.</p>
+    <div class="grid">
+      <div class="card" style="--accent:var(--mn)">
+        <div class="lines"><span class="bullet r123">1</span><span class="bullet acE">B</span><span class="bullet acE">C</span></div>
+        <h3>Upper West Side</h3>
+        <p class="note"><span class="q">De la calle 96 a la 115</span>, entre West End Ave y Central Park West. Tranquilo, junto al parque y a Riverside.</p>
+      </div>
+      <div class="card" style="--accent:var(--mn)">
+        <div class="lines"><span class="bullet r456">6</span><span class="bullet l">L</span></div>
+        <h3>East Village / Upper East Side</h3>
+        <p class="note"><span class="q">"De pronto encuentran algo barato hacia la 1st Avenue."</span> Lejos del subway baja un poco el precio.</p>
+      </div>
+      <div class="card" style="--accent:var(--mn)">
+        <div class="lines"><span class="bullet r456">6</span></div>
+        <h3>Murray Hill</h3>
+        <p class="note">Central, cerca de Grand Central y del Empire State. Ambiente de pubs y comida casual.</p>
+      </div>
+      <div class="card" style="--accent:var(--mn)">
+        <div class="lines"><span class="bullet l">L</span><span class="bullet r456">6</span></div>
+        <h3>Peter Cooper Village</h3>
+        <p class="note">Complejo residencial tranquilo junto al East River. Verde y seguro, algo apartado del bullicio.</p>
+      </div>
+      <div class="card" style="--accent:var(--mn)">
+        <div class="lines"><span class="bullet bdfm">F</span><span class="bullet l">L</span></div>
+        <h3>Alphabet City <span style="font-weight:500;color:var(--muted);font-size:14px">(Lower East Side)</span></h3>
+        <p class="note">Con onda y buena vida nocturna. Algo lejos del subway, así que conviene mirar el trayecto.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- TIPS -->
+<section class="tips reveal">
+  <div class="wrap">
+    <div class="signbar">
+      <span style="font-size:20px">💡</span>
+      <span class="zname">Tips para quien lo use</span>
+      <span class="ztag">Primera vez en NYC</span>
+    </div>
+    <p class="tiplead">Cosas prácticas que ahorran tiempo, plata y dolores de cabeza apenas se llega.</p>
+    <div class="tipgrid">
+      <div class="tip">
+        <div class="num">TIP 01</div>
+        <h4>Pagar el subway con OMNY</h4>
+        <p>Solo hay que acercar una <b>tarjeta sin contacto o el celular</b> al torniquete. No hace falta MetroCard, y la tarifa se topa sola al llegar al máximo semanal.</p>
+      </div>
+      <div class="tip">
+        <div class="num">TIP 02</div>
+        <h4>Reservar con anticipación</h4>
+        <p>Compra antes los boletos de <b>Top of the Rock</b> (mejor al atardecer), el <b>ferry a la Estatua de la Libertad</b> y el <b>Museo del 9/11</b>. Evita filas y agotados.</p>
+      </div>
+      <div class="tip">
+        <div class="num">TIP 03</div>
+        <h4>Cuidado con los días de cierre</h4>
+        <p>El <b>Met cierra los miércoles</b> y el <b>Museo del 9/11 cierra los martes</b>. Vale la pena armar el itinerario alrededor de eso.</p>
+      </div>
+      <div class="tip">
+        <div class="num">TIP 04</div>
+        <h4>Caminar el Puente de Brooklyn</h4>
+        <p>Crúzalo de <b>Manhattan hacia Brooklyn al atardecer</b> para la mejor vista del skyline, y termina con pizza en DUMBO.</p>
+      </div>
+      <div class="tip">
+        <div class="num">TIP 05</div>
+        <h4>Reservar pronto el hospedaje</h4>
+        <p>En <b>agosto</b> los precios suben y se llena. Conviene comparar y apartar con tiempo, idealmente con tarifa reembolsable.</p>
+      </div>
+      <div class="tip">
+        <div class="num">TIP 06</div>
+        <h4>Verificar el trayecto real</h4>
+        <p>Antes de reservar, mira en Google Maps (modo transporte) <b>cuánto tarda del alojamiento a Midtown</b>. Una cuadra cambia mucho la experiencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Guía de barrios · Área de Nueva York · tips de <b>Octavio Galvis-Villegas</b></div>
+</footer>
+
+<script>
+  const obs=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
